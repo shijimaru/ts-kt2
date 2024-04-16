@@ -4,47 +4,40 @@ abstract class Publisher {
   pubYear: number; 
   copies: number; 
  
-  constructor(title: string, author: string, pubYear: number, copies: number) { 
-    this.title = title; 
-    this.author = author; 
-    this.pubYear = pubYear; 
-    this.copies = copies; 
-  } 
- 
-  getTitle(): string { 
+  get getTitle(): string { 
     return this.title; 
   } 
  
-  setTitle(title: string): void { 
+  set setTitle(title: string){ 
     this.title = title; 
   } 
  
-  getAuthor(): string { 
+  get getAuthor(): string { 
     return this.author; 
   } 
  
-  setAuthor(author: string): void { 
+  set setAuthor(author: string){ 
     this.author = author; 
   } 
  
-  getPubYear(): number { 
+  get getPubYear(): number { 
     return this.pubYear; 
   } 
  
-  setPubYear(pubYear: number): void { 
+  set setPubYear(pubYear: number){ 
     this.pubYear = pubYear; 
   } 
  
-  getCopies(): number { 
+  get getCopies(): number { 
     return this.copies; 
   } 
  
-  setCopies(copies: number): void { 
+  set setCopies(copies: number){ 
     this.copies = copies; 
   } 
 } 
  
-class Book extends Publisher { 
+class Book extends Publisher implements Reception{ 
   pages: number; 
  
   constructor(title: string, author: string, pubYear: number, copies: number, pages: number) { 
@@ -52,30 +45,25 @@ class Book extends Publisher {
     this.pages = pages; 
   } 
  
-  getPages(): number { 
-    return this.pages; 
+  delivery(publisher: Publisher): void{
+    
   } 
- 
-  setPages(pages: number): void { 
-    this.pages = pages; 
-  } 
+
+  receive(publisher: Publisher): void{
+    
+  }
 } 
  
-class Magazine extends Publisher { 
+class Magazine extends Publisher implements Reception{ 
   issue: number; 
  
-  constructor(title: string, author: string, pubYear: number, copies: number, issue: number) { 
-    super(title, author, pubYear, copies); 
-    this.issue = issue; 
+  delivery(publisher: Publisher): void{
+    
   } 
- 
-  getIssue(): number { 
-    return this.issue; 
-  } 
- 
-  setIssue(issue: number): void { 
-    this.issue = issue; 
-  } 
+
+  receive(publisher: Publisher): void{
+    
+  }
 } 
  
 interface Reception { 
@@ -83,38 +71,40 @@ interface Reception {
   receive(publisher: Publisher): void; 
 } 
  
-class Reader { 
+class Reader implements Reception{ 
   firstName: string; 
   lastName: string; 
-  items: object[]; 
- 
-  constructor(firstName: string, lastName: string, items: object[]) { 
-    this.firstName = firstName; 
-    this.lastName = lastName; 
-    this.items = items; 
+  items: Publisher[];
+
+  delivery(publisher: Publisher): void{
+    
   } 
+
+  receive(publisher: Publisher): void{
+    
+  }
  
-  getFirstName(): string { 
+  get getFirstName(): string { 
     return this.firstName; 
   } 
  
-  setFirstName(firstName: string): void { 
+  set setFirstName(firstName: string){ 
     this.firstName = firstName; 
   } 
  
-  getLastName(): string { 
+  get getLastName(): string { 
     return this.lastName; 
   } 
  
-  setLastName(lastName: string): void { 
+  set setLastName(lastName: string){ 
     this.lastName = lastName; 
   } 
  
-  getItems(): object[] { 
+  get getItems(): object[] { 
     return this.items; 
   } 
  
-  setItems(items: string): void { 
+  set setItems(items: string){ 
     this.lastName = items; 
   } 
  
@@ -133,7 +123,7 @@ class Reader {
 } 
  
 class Library { 
-  private publications: object[]; 
+  publications: object[]; 
  
   constructor(publications: object[]) { 
     this.publications = publications; 
