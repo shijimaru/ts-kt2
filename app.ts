@@ -2,7 +2,11 @@ abstract class Publisher {
   title: string; 
   author: string; 
   pubYear: number; 
-  copies: number; 
+  copies: number;
+  static count : number = 0
+  constructor(){
+    Publisher.count++
+  }
  
   get getTitle(): string { 
     return this.title; 
@@ -40,11 +44,6 @@ abstract class Publisher {
 class Book extends Publisher implements Reception{ 
   pages: number; 
  
-  constructor(title: string, author: string, pubYear: number, copies: number, pages: number) { 
-    super(title, author, pubYear, copies); 
-    this.pages = pages; 
-  } 
- 
   delivery(publisher: Publisher): void{
     
   } 
@@ -71,17 +70,18 @@ interface Reception {
   receive(publisher: Publisher): void; 
 } 
  
-class Reader implements Reception{ 
+class Reader extends Publisher implements Reception{ 
   firstName: string; 
   lastName: string; 
-  items: Publisher[];
+  static items: Publisher[];
 
   delivery(publisher: Publisher): void{
-    
+    if (this.copies == 0 || Publisher.count == Reader.items.length) return
+    this.copies = this.copies - 1
   } 
 
   receive(publisher: Publisher): void{
-    
+    this.copies = this.copies + 1
   }
  
   get getFirstName(): string { 
@@ -107,31 +107,10 @@ class Reader implements Reception{
   set setItems(items: string){ 
     this.lastName = items; 
   } 
- 
-  addItem(item: object[]): void {     
-    if (this.items.length < 3) { 
-      this.items.push(item); 
-    } 
-  } 
- 
-  removeItem(item: Publisher): void {     
-    const index = this.items.indexOf(item); 
-    if (index > -1) { 
-      this.items.splice(index, 1); 
-    } 
-  } 
 } 
  
 class Library { 
-  publications: object[]; 
- 
-  constructor(publications: object[]) { 
-    this.publications = publications; 
-  } 
- 
-  getPublications(): object[] { 
-    return this.publications; 
-  } 
+  publications: Publisher[]; 
  
   addPublication(publication: object[]): void { 
     this.publications.push(publication); 
